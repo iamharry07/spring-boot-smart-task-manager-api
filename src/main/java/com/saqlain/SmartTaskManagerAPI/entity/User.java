@@ -5,9 +5,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -24,7 +28,6 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @Size(min = 6, max = 15, message = "{register.password.size}")
     @NotBlank
     private String password;
 
