@@ -5,6 +5,7 @@ import com.saqlain.SmartTaskManagerAPI.dto.request.RegisterRequest;
 import com.saqlain.SmartTaskManagerAPI.entity.Role;
 import com.saqlain.SmartTaskManagerAPI.entity.User;
 import com.saqlain.SmartTaskManagerAPI.exception.EmailAlreadyExistsException;
+import com.saqlain.SmartTaskManagerAPI.exception.InvalidCredentialsException;
 import com.saqlain.SmartTaskManagerAPI.repository.RoleRepository;
 import com.saqlain.SmartTaskManagerAPI.repository.UserRepository;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -43,12 +45,13 @@ public class AuthService {
 
     }
 
-    public void login(LoginRequest request){
+    public void login(LoginRequest request) {
 
-        if (userRepository.findByEmail(request.getPassword()).) {
-            throw new EmailAlreadyExistsException("User with this Email already Exists");
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+        User user = userOptional.orElseThrow(() -> new InvalidCredentialsException("Invalid Email or password"));
+        if (!passwordEncoder.matches(request.getPassword(),user.getPassword())){
+            throw new InvalidCredentialsException("Invalid Email or Password");
         }
-
     }
 
 }
