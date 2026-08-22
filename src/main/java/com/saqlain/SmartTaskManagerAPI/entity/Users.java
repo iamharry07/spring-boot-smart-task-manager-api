@@ -33,7 +33,7 @@ public class Users {
     @ManyToOne
     @JoinColumn(name = "role_id")
     @NotNull
-    private Role role;
+    private Roles role;
 
     @NotNull
     private Timestamp createdAt;

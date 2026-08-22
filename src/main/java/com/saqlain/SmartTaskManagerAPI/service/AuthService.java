@@ -3,7 +3,7 @@ package com.saqlain.SmartTaskManagerAPI.service;
 import com.saqlain.SmartTaskManagerAPI.dto.request.LoginRequest;
 import com.saqlain.SmartTaskManagerAPI.dto.request.RegisterRequest;
 import com.saqlain.SmartTaskManagerAPI.dto.response.LoginResponse;
-import com.saqlain.SmartTaskManagerAPI.entity.Role;
+import com.saqlain.SmartTaskManagerAPI.entity.Roles;
 import com.saqlain.SmartTaskManagerAPI.entity.Users;
 import com.saqlain.SmartTaskManagerAPI.exception.EmailAlreadyExistsException;
 import com.saqlain.SmartTaskManagerAPI.exception.InvalidCredentialsException;
@@ -34,7 +34,7 @@ public class AuthService {
             throw new EmailAlreadyExistsException("User with this Email already Exists");
         }
 
-        Role role = roleRepository.findByName("USER").orElseThrow();
+        Roles role = roleRepository.findByName("USER").orElseThrow();
         String hashedPassword = passwordEncoder.encode(request.getPassword());
 
         Users user = new Users();

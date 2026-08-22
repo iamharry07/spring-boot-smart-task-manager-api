@@ -1,8 +1,9 @@
 package com.saqlain.SmartTaskManagerAPI.service;
 
 import com.saqlain.SmartTaskManagerAPI.dto.request.TaskRequest;
+import com.saqlain.SmartTaskManagerAPI.dto.response.TaskResponse;
 import com.saqlain.SmartTaskManagerAPI.entity.Category;
-import com.saqlain.SmartTaskManagerAPI.entity.Task;
+import com.saqlain.SmartTaskManagerAPI.entity.Tasks;
 import com.saqlain.SmartTaskManagerAPI.entity.Users;
 import com.saqlain.SmartTaskManagerAPI.repository.CategoryRepository;
 import com.saqlain.SmartTaskManagerAPI.repository.TaskRepository;
@@ -12,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -30,7 +33,7 @@ public class TaskService {
         Users users = userRepository.findByEmail(email).orElseThrow();
         Category category = categoryRepository.findByNameAndUser(request.getCategory(), users).orElseThrow();
 
-        Task task = new Task();
+        Tasks task = new Tasks();
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -43,6 +46,23 @@ public class TaskService {
         task.setCategory(category);
 
         taskRepository.save(task);
+    }
+
+    public List<TaskResponse> getMyTasks() {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Tasks> tasks = taskRepository.findAllByUserEmail(email);
+
+        return tasks.stream().map(task -> new TaskResponse(task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getStatus(),
+                task.getPriority(),
+                task.getCategory().getName(),
+                task.getDueDate(),
+                task.getCreatedAt(),
+                task.getUpdatedAt())).toList();
+
     }
 
 }
