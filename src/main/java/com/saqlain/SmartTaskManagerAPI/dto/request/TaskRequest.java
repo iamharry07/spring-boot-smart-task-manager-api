@@ -1,6 +1,5 @@
 package com.saqlain.SmartTaskManagerAPI.dto.request;
 
-import com.saqlain.SmartTaskManagerAPI.entity.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -29,4 +28,8 @@ public class TaskRequest {
 
     @NotBlank
     private String category;
+
+    public TaskRequest(String status){
+        this.status = status;
+    }
 }
