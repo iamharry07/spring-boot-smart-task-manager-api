@@ -6,6 +6,8 @@ import com.saqlain.SmartTaskManagerAPI.dto.response.TaskResponse;
 import com.saqlain.SmartTaskManagerAPI.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,6 +62,11 @@ public class TaskController {
     @GetMapping("/tasks/title/{title}")
     public List<TaskResponse> getTaskByTitle(@PathVariable String title){
         return taskService.getTasksByTitle(title);
+    }
+
+    @GetMapping("/task")
+    public Page<TaskResponse> getMyTasks(Pageable page){
+        return taskService.getMyTasks(page);
     }
 
 }

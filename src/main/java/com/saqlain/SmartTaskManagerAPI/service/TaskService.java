@@ -11,6 +11,9 @@ import com.saqlain.SmartTaskManagerAPI.repository.CategoryRepository;
 import com.saqlain.SmartTaskManagerAPI.repository.TaskRepository;
 import com.saqlain.SmartTaskManagerAPI.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.config.Task;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +68,19 @@ public class TaskService {
                 task.getCreatedAt(),
                 task.getUpdatedAt())).toList();
 
+    }
+
+    public Page<TaskResponse> getMyTasks(Pageable pageable){
+        Page<Tasks> tasks = taskRepository.findAllByUserEmail(getCurrentUser(),pageable);
+        return tasks.map(task -> new TaskResponse(task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getStatus(),
+                task.getPriority(),
+                task.getCategory().getName(),
+                task.getDueDate(),
+                task.getCreatedAt(),
+                task.getUpdatedAt()));
     }
 
     public TaskResponse getMyTaskById(Long id) {
