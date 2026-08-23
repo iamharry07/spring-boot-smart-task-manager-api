@@ -3,6 +3,7 @@ package com.saqlain.SmartTaskManagerAPI.service;
 import com.saqlain.SmartTaskManagerAPI.dto.request.LoginRequest;
 import com.saqlain.SmartTaskManagerAPI.dto.request.RegisterRequest;
 import com.saqlain.SmartTaskManagerAPI.dto.response.LoginResponse;
+import com.saqlain.SmartTaskManagerAPI.entity.RefreshToken;
 import com.saqlain.SmartTaskManagerAPI.entity.Roles;
 import com.saqlain.SmartTaskManagerAPI.entity.Users;
 import com.saqlain.SmartTaskManagerAPI.exception.EmailAlreadyExistsException;
@@ -27,6 +28,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
+    private final RefreshTokenService tokenService;
 
     public void register(RegisterRequest request) {
 
@@ -57,8 +59,12 @@ public class AuthService {
         }
 
         String token = jwtService.generateToken(user.getEmail());
+        RefreshToken refreshToken = tokenService.createRefreshToken(user);
+        String refreshTokenValue = refreshToken.getToken();
 
-        return new LoginResponse(token);
+        return new LoginResponse(token,refreshTokenValue);
     }
+
+
 
 }
