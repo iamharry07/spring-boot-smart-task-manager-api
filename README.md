@@ -1,8 +1,33 @@
-# Smart Task Manager API
+# Smart Task Manager
 
-A secure RESTful Task Management API built using Spring Boot, Spring Security, JWT Authentication, JPA/Hibernate, and MySQL.
+A full-stack Task Management application built with **Spring Boot, Spring Security, JWT, PostgreSQL, and React**.
 
-The project provides user authentication, JWT-based authorization, task management, category management, refresh token handling, and secure logout with JWT revocation.
+The application allows authenticated users to create, manage, categorize, and track their tasks through a secure REST API and a user-friendly React interface.
+
+---
+
+## 📸 Application Screenshots
+
+### Login
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1616c7a4-a93a-480a-aa88-b900fa4051a0" />
+
+### Register
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3ac01811-8210-4101-be22-ca33f74e7085" />
+
+### Dashboard
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1ea2ec74-ca20-4169-896e-d10d4ebbf82b" />
+
+
+### Task Management
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f2c4af2a-18fb-4dd6-952e-9fb090d434a4" />
+
+### Create Task
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/68b3fb23-f296-4064-9a18-e41144aadcb5" />
 
 ---
 
@@ -12,48 +37,58 @@ The project provides user authentication, JWT-based authorization, task manageme
 
 - User registration
 - User login
-- Password encryption using BCrypt
 - JWT-based authentication
-- Role-based authorization
 - Access token validation
-- Refresh token generation
-- Refresh token persistence
+- Refresh token support
+- Token expiration handling
 - Secure logout
-- JWT token revocation after logout
+- Revoked token management
+- Role-based authorization
+- Password encryption
 
 ### Task Management
 
 - Create tasks
-- Get user-specific tasks
+- View tasks
 - Update tasks
 - Delete tasks
 - Task status management
 - Task priority management
-- Task due dates
+- Due date support
 - Task descriptions
-- Task categories
+- User-specific task management
 
 ### Category Management
 
 - Create categories
-- Retrieve categories
-- Update categories
-- Delete categories
-- User-specific categories
+- Manage task categories
+- Associate tasks with categories
 
 ### Security
 
-- JWT authentication filter
-- Stateless authentication
-- Bearer token validation
-- Revoked JWT detection
-- Refresh token deletion during logout
-- Unauthorized request protection
-- Role-based access control
+- Spring Security
+- JWT authentication
+- Custom JWT authentication filter
+- Refresh token mechanism
+- Revoked token validation
+- Protected API endpoints
+- Authentication exception handling
+
+### Frontend
+
+- React-based user interface
+- Login and registration screens
+- Task dashboard
+- Task creation and management
+- Category management
+- API integration with Spring Boot backend
+- Authentication-aware UI
 
 ---
 
 ## 🛠️ Tech Stack
+
+### Backend
 
 - Java
 - Spring Boot
@@ -61,24 +96,52 @@ The project provides user authentication, JWT-based authorization, task manageme
 - Spring Data JPA
 - Hibernate
 - JWT
-- MySQL
-- Lombok
 - Maven
+
+### Database
+
+- PostgreSQL
+
+### Frontend
+
+- React
+- JavaScript
+- HTML
+- CSS
+- REST API
+
+### Development Tools
+
+- IntelliJ IDEA
+- PostgreSQL / pgAdmin
+- Git
+- GitHub
+- Postman
 
 ---
 
+## 🏗️ Project Architecture
+
+The backend follows a layered architecture:
+
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Database
+
 ## 📂 Project Structure
 
-```textSmartTaskManagerAPI/
-│
-├── .idea/
-├── .mvn/
+```text
+SmartTaskManagerAPI/
 │
 ├── src/
 │   ├── main/
 │   │   ├── java/
 │   │   │   └── com.saqlain.SmartTaskManagerAPI/
-│   │   │
+│   │   │       │
 │   │   │       ├── config/
 │   │   │       │   └── SecurityConfig.java
 │   │   │       │
@@ -141,20 +204,27 @@ The project provides user authentication, JWT-based authorization, task manageme
 │   │   │       └── SmartTaskManagerApiApplication.java
 │   │   │
 │   │   └── resources/
-│   │       ├── static/
-│   │       ├── templates/
 │   │       └── application.properties
 │   │
-│   └── test/
+│   ├── test/
+│   │
+│   └── pom.xml
 │
-├── target/
-├── .gitattributes
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── ...
+│
+├── screenshots/
+│   ├── login.png
+│   ├── register.png
+│   ├── dashboard.png
+│   ├── tasks.png
+│   └── create-task.png
+│
 ├── .gitignore
-├── HELP.md
+├── README.md
 ├── mvnw
 ├── mvnw.cmd
-├── pom.xml
-└── README.md
-│
-├── pom.xml
-└── README.md
+└── pom.xml
