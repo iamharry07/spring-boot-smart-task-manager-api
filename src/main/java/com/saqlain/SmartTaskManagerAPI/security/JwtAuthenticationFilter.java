@@ -34,12 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        System.out.println("\n========== JWT FILTER ==========");
-        System.out.println("Request URI: " + request.getRequestURI());
-
         String authHeader = request.getHeader("Authorization");
-
-        System.out.println("Authorization Header: " + authHeader);
 
         String token = null;
         String email = null;
@@ -47,24 +42,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
             token = authHeader.substring(7);
-            System.out.println("Token found: YES");
 
             if (tokenService.isTokenRevoked(token)) {
-                filterChain.doFilter(request,response);
+                filterChain.doFilter(request, response);
                 return;
             }
 
             try {
                 email = jwtService.extractEmail(token);
-                System.out.println("Email extracted from token: " + email);
-
             } catch (Exception e) {
-                System.out.println("ERROR extracting email: " + e.getMessage());
+                e.printStackTrace();
             }
-        } else {
-            System.out.println("Token found: NO");
         }
-
         if (email != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -73,13 +62,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails =
                         userDetailsService.loadUserByUsername(email);
 
-                System.out.println("User found: " + userDetails.getUsername());
-
                 boolean valid =
                         jwtService.validateToken(token, userDetails);
-
-                System.out.println("Token valid: " + valid);
-
                 if (valid) {
 
                     UsernamePasswordAuthenticationToken authToken =
@@ -97,30 +81,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder
                             .getContext()
                             .setAuthentication(authToken);
-
-                    System.out.println("Authentication SUCCESS");
-                    System.out.println("Authenticated User: "
-                            + SecurityContextHolder
-                            .getContext()
-                            .getAuthentication()
-                            .getName());
-
                 }
 
             } catch (Exception e) {
-
-                System.out.println("JWT Authentication ERROR: "
-                        + e.getMessage());
-
+                e.printStackTrace();
             }
         }
-
-        System.out.println("Authentication before filter chain: "
-                + SecurityContextHolder.getContext()
-                .getAuthentication());
-
-        System.out.println("================================\n");
-
         filterChain.doFilter(request, response);
     }
 }
